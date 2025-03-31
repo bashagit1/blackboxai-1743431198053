@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSigns | Add Vitals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                    <a href="patient-profile.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Patients</a>
+                    <a href="vitals-entry.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">Add Vitals</a>
+                    <a href="history.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">History</a>
+                    <a href="settings.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Record Vital Signs</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Enter the patient's current vital signs</p>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <form id="vitalsForm">
+                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                            <div class="sm:col-span-3">
+                                <label for="patient" class="block text-sm font-medium text-gray-700">Patient</label>
+                                <select id="patient" name="patient" required
+                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                                    <option value="" disabled selected>Select patient</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="date" class="block text-sm font-medium text-gray-700">Date & Time</label>
+                                <input type="datetime-local" name="date" id="date" required
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="heart-rate" class="block text-sm font-medium text-gray-700">Heart Rate (bpm)</label>
+                                <input type="number" name="heart-rate" id="heart-rate" min="30" max="200" step="1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="systolic" class="block text-sm font-medium text-gray-700">Blood Pressure (mmHg)</label>
+                                <div class="flex">
+                                    <input type="number" name="systolic" id="systolic" placeholder="Systolic" min="50" max="250" step="1"
+                                        class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <span class="mx-2 self-center">/</span>
+                                    <input type="number" name="diastolic" id="diastolic" placeholder="Diastolic" min="30" max="150" step="1"
+                                        class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="temperature" class="block text-sm font-medium text-gray-700">Temperature (°C)</label>
+                                <input type="number" name="temperature" id="temperature" min="30" max="45" step="0.1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="oxygen" class="block text-sm font-medium text-gray-700">Oxygen Saturation (%)</label>
+                                <input type="number" name="oxygen" id="oxygen" min="70" max="100" step="1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="respiratory" class="block text-sm font-medium text-gray-700">Respiratory Rate (breaths/min)</label>
+                                <input type="number" name="respiratory" id="respiratory" min="5" max="50" step="1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="weight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                                <input type="number" name="weight" id="weight" min="1" max="300" step="0.1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="notes" class="block text-sm font-medium text-gray-700">Clinical Notes</label>
+                                <textarea id="notes" name="notes" rows="3"
+                                    class="shadow-sm focus:ring-red-500 focus:border-red-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex items-center justify-end gap-x-6">
+                            <button type="button" onclick="window.location.href='dashboard.html'" class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                Cancel
+                            </button>
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                Save Vitals
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load patients into dropdown
+        function loadPatients() {
+            const patientSelect = document.getElementById('patient');
+            const patients = JSON.parse(localStorage.getItem('patients') || '[]');
+            
+            // Clear existing options
+            patientSelect.innerHTML = '<option value="" disabled selected>Select patient</option>';
+            
+            // Add patient options
+            patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = `${patient.firstName} ${patient.lastName}`;
+                option.textContent = `${patient.firstName} ${patient.lastName}`;
+                patientSelect.appendChild(option);
+            });
+            
+            // Select current patient if set
+            const currentPatient = localStorage.getItem('currentPatient');
+            if (currentPatient) {
+                patientSelect.value = currentPatient;
+            }
+        }
+
+        // Set default datetime to now
+        function setDefaultDateTime() {
+            const now = new Date();
+            const timezoneOffset = now.getTimezoneOffset() * 60000;
+            const localISOTime = (new Date(now - timezoneOffset)).toISOString().slice(0, 16);
+            document.getElementById('date').value = localISOTime;
+        }
+
+        // Save vitals data
+        document.getElementById('vitalsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const patient = document.getElementById('patient').value;
+            const dateTime = document.getElementById('date').value;
+            const heartRate = document.getElementById('heart-rate').value;
+            const systolic = document.getElementById('systolic').value;
+            const diastolic = document.getElementById('diastolic').value;
+            const temperature = document.getElementById('temperature').value;
+            const oxygen = document.getElementById('oxygen').value;
+            const respiratory = document.getElementById('respiratory').value;
+            const weight = document.getElementById('weight').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Create vitals object
+            const vitals = {
+                patient,
+                dateTime,
+                heartRate: heartRate ? parseInt(heartRate) : null,
+                bloodPressure: systolic && diastolic ? `${systolic}/${diastolic}` : null,
+                temperature: temperature ? parseFloat(temperature) : null,
+                oxygen: oxygen ? parseInt(oxygen) : null,
+                respiratory: respiratory ? parseInt(respiratory) : null,
+                weight: weight ? parseFloat(weight) : null,
+                notes,
+                recordedBy: localStorage.getItem('currentUser') || 'Unknown'
+            };
+            
+            // Save vitals data
+            let allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
+            allVitals.push(vitals);
+            localStorage.setItem('vitals', JSON.stringify(allVitals));
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Initialize form
+        window.addEventListener('load', function() {
+            loadPatients();
+            setDefaultDateTime();
+        });
+    </script>
+</body>
+</html>
