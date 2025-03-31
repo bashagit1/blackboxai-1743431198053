@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSigns | History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                    <a href="patient-profile.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Patients</a>
+                    <a href="vitals-entry.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Add Vitals</a>
+                    <a href="history.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">History</a>
+                    <a href="settings.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">Vital Signs History</h3>
+                            <p class="mt-1 max-w-2xl text-sm text-gray-500">All recorded vital sign measurements</p>
+                        </div>
+                        <div>
+                            <button id="exportBtn" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <i class="fas fa-download mr-2"></i> Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <div class="mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="patientFilter" class="block text-sm font-medium text-gray-700">Patient</label>
+                                <select id="patientFilter" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                                    <option value="">All Patients</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="dateFrom" class="block text-sm font-medium text-gray-700">From Date</label>
+                                <input type="date" id="dateFrom" class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label for="dateTo" class="block text-sm font-medium text-gray-700">To Date</label>
+                                <input type="date" id="dateTo" class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Heart Rate</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Pressure</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temp (°C)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oxygen (%)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resp. Rate</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight (kg)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recorded By</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vitalsTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Data will be inserted here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load patients into filter dropdown
+        function loadPatients() {
+            const patientFilter = document.getElementById('patientFilter');
+            const patients = JSON.parse(localStorage.getItem('patients') || '[]');
+            
+            // Clear existing options
+            patientFilter.innerHTML = '<option value="">All Patients</option>';
+            
+            // Add patient options
+            patients.forEach(patient => {
+                const option = document.createElement('option');
+                option.value = `${patient.firstName} ${patient.lastName}`;
+                option.textContent = `${patient.firstName} ${patient.lastName}`;
+                patientFilter.appendChild(option);
+            });
+        }
+
+        // Format date for display
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+
+        // Load and display vitals data
+        function loadVitals() {
+            const vitalsTableBody = document.getElementById('vitalsTableBody');
+            const patientFilter = document.getElementById('patientFilter').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            // Clear existing table rows
+            vitalsTableBody.innerHTML = '';
+            
+            // Get all vitals data
+            let allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
+            
+            // Filter data
+            allVitals = allVitals.filter(vital => {
+                // Filter by patient
+                if (patientFilter && vital.patient !== patientFilter) {
+                    return false;
+                }
+                
+                // Filter by date range
+                const vitalDate = new Date(vital.dateTime).toISOString().split('T')[0];
+                if (dateFrom && vitalDate < dateFrom) {
+                    return false;
+                }
+                if (dateTo && vitalDate > dateTo) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            // Sort by date (newest first)
+            allVitals.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+            
+            // Add rows to table
+            allVitals.forEach(vital => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${vital.patient}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDateTime(vital.dateTime)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.heartRate || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.bloodPressure || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.temperature || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.oxygen || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.respiratory || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.weight || '--'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.recordedBy}</td>
+                `;
+                
+                vitalsTableBody.appendChild(row);
+            });
+        }
+
+        // Export to CSV
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            let allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
+            
+            // Create CSV header
+            let csv = 'Patient,Date/Time,Heart Rate,Blood Pressure,Temperature (°C),Oxygen (%),Respiratory Rate,Weight (kg),Recorded By\n';
+            
+            // Add data rows
+            allVitals.forEach(vital => {
+                csv += `"${vital.patient}","${formatDateTime(vital.dateTime)}",${vital.heartRate || ''},"${vital.bloodPressure || ''}",${vital.temperature || ''},${vital.oxygen || ''},${vital.respiratory || ''},${vital.weight || ''},"${vital.recordedBy}"\n`;
+            });
+            
+            // Create download link
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'vitals_history.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            loadPatients();
+            loadVitals();
+            
+            // Set up event listeners for filters
+            document.getElementById('patientFilter').addEventListener('change', loadVitals);
+            document.getElementById('dateFrom').addEventListener('change', loadVitals);
+            document.getElementById('dateTo').addEventListener('change', loadVitals);
+        });
+    </script>
+</body>
+</html>
