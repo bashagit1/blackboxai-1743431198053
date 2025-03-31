@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSigns | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">Dashboard</a>
+                    <a href="patient-profile.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Patients</a>
+                    <a href="vitals-entry.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Add Vitals</a>
+                    <a href="history.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">History</a>
+                    <a href="settings.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Heart Rate Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
+                                <i class="fas fa-heartbeat text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Heart Rate</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="heartRate">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="heartRateTrend"></span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="heartRateStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blood Pressure Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                <i class="fas fa-tint text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Blood Pressure</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="bloodPressure">--/--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="bloodPressureTrend"></span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="bloodPressureStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                                <i class="fas fa-thermometer-half text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Temperature</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="temperature">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="temperatureTrend"></span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="temperatureStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Oxygen Saturation Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                <i class="fas fa-lungs text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Oxygen Saturation</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="oxygenSaturation">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="oxygenTrend"></span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="oxygenStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Respiratory Rate Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                                <i class="fas fa-wind text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Respiratory Rate</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="respiratoryRate">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="respiratoryTrend"></span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="respiratoryStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Summary Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Current Patient</dt>
+                                <dd class="text-lg font-semibold text-gray-900" id="currentPatient">No patient selected</dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="button" onclick="window.location.href='patient-profile.html'" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Select Patient
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate real-time vital signs updates
+        function simulateVitals() {
+            // Heart Rate (60-100 normal)
+            const heartRate = Math.floor(Math.random() * 40) + 60;
+            document.getElementById('heartRate').textContent = heartRate;
+            document.getElementById('heartRateTrend').textContent = 'bpm';
+            
+            if (heartRate < 60) {
+                document.getElementById('heartRateStatus').textContent = 'Bradycardia';
+                document.getElementById('heartRateStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else if (heartRate > 100) {
+                document.getElementById('heartRateStatus').textContent = 'Tachycardia';
+                document.getElementById('heartRateStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else {
+                document.getElementById('heartRateStatus').textContent = 'Normal';
+                document.getElementById('heartRateStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            }
+
+            // Blood Pressure (120/80 normal)
+            const systolic = Math.floor(Math.random() * 30) + 110;
+            const diastolic = Math.floor(Math.random() * 20) + 70;
+            document.getElementById('bloodPressure').textContent = `${systolic}/${diastolic}`;
+            document.getElementById('bloodPressureTrend').textContent = 'mmHg';
+            
+            if (systolic > 140 || diastolic > 90) {
+                document.getElementById('bloodPressureStatus').textContent = 'Hypertension';
+                document.getElementById('bloodPressureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else if (systolic < 90 || diastolic < 60) {
+                document.getElementById('bloodPressureStatus').textContent = 'Hypotension';
+                document.getElementById('bloodPressureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else {
+                document.getElementById('bloodPressureStatus').textContent = 'Normal';
+                document.getElementById('bloodPressureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            }
+
+            // Temperature (36.5-37.5°C normal)
+            const temperature = (Math.random() * 2) + 36.0;
+            document.getElementById('temperature').textContent = temperature.toFixed(1);
+            document.getElementById('temperatureTrend').textContent = '°C';
+            
+            if (temperature > 37.5) {
+                document.getElementById('temperatureStatus').textContent = 'Fever';
+                document.getElementById('temperatureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else if (temperature < 36.0) {
+                document.getElementById('temperatureStatus').textContent = 'Hypothermia';
+                document.getElementById('temperatureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else {
+                document.getElementById('temperatureStatus').textContent = 'Normal';
+                document.getElementById('temperatureStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            }
+
+            // Oxygen Saturation (95-100% normal)
+            const oxygen = Math.floor(Math.random() * 6) + 95;
+            document.getElementById('oxygenSaturation').textContent = oxygen;
+            document.getElementById('oxygenTrend').textContent = '%';
+            
+            if (oxygen < 95) {
+                document.getElementById('oxygenStatus').textContent = 'Hypoxemia';
+                document.getElementById('oxygenStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else {
+                document.getElementById('oxygenStatus').textContent = 'Normal';
+                document.getElementById('oxygenStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            }
+
+            // Respiratory Rate (12-20 normal)
+            const respiratoryRate = Math.floor(Math.random() * 10) + 12;
+            document.getElementById('respiratoryRate').textContent = respiratoryRate;
+            document.getElementById('respiratoryTrend').textContent = 'breaths/min';
+            
+            if (respiratoryRate > 20) {
+                document.getElementById('respiratoryStatus').textContent = 'Tachypnea';
+                document.getElementById('respiratoryStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else if (respiratoryRate < 12) {
+                document.getElementById('respiratoryStatus').textContent = 'Bradypnea';
+                document.getElementById('respiratoryStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+            } else {
+                document.getElementById('respiratoryStatus').textContent = 'Normal';
+                document.getElementById('respiratoryStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+            }
+
+            // Check if we have a current patient
+            const currentPatient = localStorage.getItem('currentPatient');
+            if (currentPatient) {
+                document.getElementById('currentPatient').textContent = currentPatient;
+            }
+        }
+
+        // Update vitals every 3 seconds
+        simulateVitals();
+        setInterval(simulateVitals, 3000);
+    </script>
+</body>
+</html>
