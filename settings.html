@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSigns | Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                    <a href="patient-profile.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Patients</a>
+                    <a href="vitals-entry.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Add Vitals</a>
+                    <a href="history.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">History</a>
+                    <a href="settings.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">Settings</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Application Settings</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Configure your preferences</p>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <form id="settingsForm">
+                        <div class="space-y-6">
+                            <!-- Measurement Units -->
+                            <div>
+                                <h4 class="text-md font-medium text-gray-900 mb-4">Measurement Units</h4>
+                                <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-4">
+                                    <div>
+                                        <label for="temperatureUnit" class="block text-sm font-medium text-gray-700">Temperature</label>
+                                        <select id="temperatureUnit" name="temperatureUnit"
+                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                                            <option value="celsius">Celsius (°C)</option>
+                                            <option value="fahrenheit">Fahrenheit (°F)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="weightUnit" class="block text-sm font-medium text-gray-700">Weight</label>
+                                        <select id="weightUnit" name="weightUnit"
+                                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                                            <option value="kg">Kilograms (kg)</option>
+                                            <option value="lbs">Pounds (lbs)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notification Preferences -->
+                            <div>
+                                <h4 class="text-md font-medium text-gray-900 mb-4">Notification Preferences</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="emailAlerts" name="emailAlerts" type="checkbox"
+                                                class="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="emailAlerts" class="font-medium text-gray-700">Email Alerts</label>
+                                            <p class="text-gray-500">Receive email notifications for abnormal vitals</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="smsAlerts" name="smsAlerts" type="checkbox"
+                                                class="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="smsAlerts" class="font-medium text-gray-700">SMS Alerts</label>
+                                            <p class="text-gray-500">Receive text message alerts for critical vitals</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Display Preferences -->
+                            <div>
+                                <h4 class="text-md font-medium text-gray-900 mb-4">Display Preferences</h4>
+                                <div class="flex items-center">
+                                    <div class="flex items-center h-5">
+                                        <input id="darkMode" name="darkMode" type="checkbox"
+                                            class="focus:ring-red-500 h-4 w-4 text-red-600 border-gray-300 rounded">
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="darkMode" class="font-medium text-gray-700">Dark Mode</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Data Management -->
+                            <div>
+                                <h4 class="text-md font-medium text-gray-900 mb-4">Data Management</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <button type="button" id="exportDataBtn" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                            <i class="fas fa-download mr-2"></i> Export All Data
+                                        </button>
+                                        <p class="mt-1 text-sm text-gray-500">Download all patient and vital sign data as CSV</p>
+                                    </div>
+                                    <div>
+                                        <button type="button" id="resetDataBtn" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                            <i class="fas fa-trash-alt mr-2"></i> Reset All Data
+                                        </button>
+                                        <p class="mt-1 text-sm text-gray-500">Warning: This will permanently delete all application data</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Save Button -->
+                            <div class="pt-5">
+                                <div class="flex justify-end">
+                                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        Save Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved settings
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+            
+            // Set form values from saved settings
+            if (settings.temperatureUnit) {
+                document.getElementById('temperatureUnit').value = settings.temperatureUnit;
+            }
+            if (settings.weightUnit) {
+                document.getElementById('weightUnit').value = settings.weightUnit;
+            }
+            if (settings.emailAlerts) {
+                document.getElementById('emailAlerts').checked = settings.emailAlerts;
+            }
+            if (settings.smsAlerts) {
+                document.getElementById('smsAlerts').checked = settings.smsAlerts;
+            }
+            if (settings.darkMode) {
+                document.getElementById('darkMode').checked = settings.darkMode;
+                if (settings.darkMode) {
+                    document.body.classList.add('bg-gray-900');
+                    document.body.classList.remove('bg-gray-100');
+                }
+            }
+        }
+
+        // Save settings
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const settings = {
+                temperatureUnit: document.getElementById('temperatureUnit').value,
+                weightUnit: document.getElementById('weightUnit').value,
+                emailAlerts: document.getElementById('emailAlerts').checked,
+                smsAlerts: document.getElementById('smsAlerts').checked,
+                darkMode: document.getElementById('darkMode').checked
+            };
+            
+            localStorage.setItem('settings', JSON.stringify(settings));
+            
+            // Apply dark mode immediately if changed
+            if (settings.darkMode) {
+                document.body.classList.add('bg-gray-900');
+                document.body.classList.remove('bg-gray-100');
+            } else {
+                document.body.classList.add('bg-gray-100');
+                document.body.classList.remove('bg-gray-900');
+            }
+            
+            alert('Settings saved successfully!');
+        });
+
+        // Export all data
+        document.getElementById('exportDataBtn').addEventListener('click', function() {
+            const data = {
+                patients: JSON.parse(localStorage.getItem('patients') || '[]'),
+                vitals: JSON.parse(localStorage.getItem('vitals') || '[]'),
+                settings: JSON.parse(localStorage.getItem('settings') || '{}')
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'vitalsigns_backup.json');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        // Reset all data
+        document.getElementById('resetDataBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                localStorage.removeItem('patients');
+                localStorage.removeItem('vitals');
+                localStorage.removeItem('settings');
+                localStorage.removeItem('currentPatient');
+                localStorage.removeItem('currentUser');
+                alert('All data has been reset. The page will now reload.');
+                window.location.reload();
+            }
+        });
+
+        // Initialize page
+        window.addEventListener('load', loadSettings);
+    </script>
+</body>
+</html>
