@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalSigns | Patient Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                    <a href="patient-profile.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">Patients</a>
+                    <a href="vitals-entry.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Add Vitals</a>
+                    <a href="history.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">History</a>
+                    <a href="settings.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Patient Information</h3>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and medical history</p>
+                </div>
+                <div class="px-4 py-5 sm:p-6">
+                    <form id="patientForm">
+                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                            <div class="sm:col-span-3">
+                                <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" required
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" required
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                <input type="date" name="dob" id="dob" required
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                                <select id="gender" name="gender" autocomplete="gender" required
+                                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
+                                    <option value="" disabled selected>Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="unknown">Prefer not to say</option>
+                                </select>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                                <input type="text" name="address" id="address" autocomplete="street-address"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                                <input type="text" name="city" id="city" autocomplete="address-level2"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="state" class="block text-sm font-medium text-gray-700">State / Province</label>
+                                <input type="text" name="state" id="state" autocomplete="address-level1"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
+                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                                <input type="tel" name="phone" id="phone" autocomplete="tel"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-3">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" name="email" id="email" autocomplete="email"
+                                    class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="medical-history" class="block text-sm font-medium text-gray-700">Medical History</label>
+                                <textarea id="medical-history" name="medical-history" rows="3"
+                                    class="shadow-sm focus:ring-red-500 focus:border-red-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
+                                <textarea id="allergies" name="allergies" rows="2"
+                                    class="shadow-sm focus:ring-red-500 focus:border-red-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="medications" class="block text-sm font-medium text-gray-700">Current Medications</label>
+                                <textarea id="medications" name="medications" rows="2"
+                                    class="shadow-sm focus:ring-red-500 focus:border-red-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex items-center justify-end gap-x-6">
+                            <button type="button" onclick="window.location.href='dashboard.html'" class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                                Cancel
+                            </button>
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                Save Patient
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('patientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const patientName = `${firstName} ${lastName}`;
+            
+            // Save to localStorage
+            localStorage.setItem('currentPatient', patientName);
+            
+            // Create patient object
+            const patient = {
+                firstName,
+                lastName,
+                dob: document.getElementById('dob').value,
+                gender: document.getElementById('gender').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                postalCode: document.getElementById('postal-code').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                medicalHistory: document.getElementById('medical-history').value,
+                allergies: document.getElementById('allergies').value,
+                medications: document.getElementById('medications').value,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            // Save patient data
+            let patients = JSON.parse(localStorage.getItem('patients') || '[]');
+            const existingIndex = patients.findIndex(p => 
+                p.firstName === firstName && p.lastName === lastName);
+            
+            if (existingIndex >= 0) {
+                patients[existingIndex] = patient;
+            } else {
+                patients.push(patient);
+            }
+            
+            localStorage.setItem('patients', JSON.stringify(patients));
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Load patient data if editing
+        window.addEventListener('load', function() {
+            const currentPatient = localStorage.getItem('currentPatient');
+            if (currentPatient) {
+                const patients = JSON.parse(localStorage.getItem('patients') || '[]');
+                const patient = patients.find(p => 
+                    `${p.firstName} ${p.lastName}` === currentPatient);
+                
+                if (patient) {
+                    document.getElementById('first-name').value = patient.firstName || '';
+                    document.getElementById('last-name').value = patient.lastName || '';
+                    document.getElementById('dob').value = patient.dob || '';
+                    document.getElementById('gender').value = patient.gender || '';
+                    document.getElementById('address').value = patient.address || '';
+                    document.getElementById('city').value = patient.city || '';
+                    document.getElementById('state').value = patient.state || '';
+                    document.getElementById('postal-code').value = patient.postalCode || '';
+                    document.getElementById('phone').value = patient.phone || '';
+                    document.getElementById('email').value = patient.email || '';
+                    document.getElementById('medical-history').value = patient.medicalHistory || '';
+                    document.getElementById('allergies').value = patient.allergies || '';
+                    document.getElementById('medications').value = patient.medications || '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
