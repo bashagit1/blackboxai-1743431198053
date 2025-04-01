@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VitalSigns | Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <style>
+      @import url('https://cdn.tailwindcss.com');
+      /* Dashboard-specific styles */
+      .vital-card {
+        border-left: 4px solid #2563eb;
+        transition: all 0.3s ease;
+      }
+      .vital-card.critical {
+        border-left-color: #dc2626;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+      }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100">
@@ -132,6 +149,33 @@
                         <div class="mt-4">
                             <div class="text-sm text-gray-500">
                                 <span id="oxygenStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    No data
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Glucose Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-pink-500 rounded-md p-3">
+                                <i class="fas fa-vial text-white text-xl"></i>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dt class="text-sm font-medium text-gray-500 truncate">Glucose</dt>
+                                <dd class="flex items-baseline">
+                                    <div class="text-2xl font-semibold text-gray-900" id="glucose">--</div>
+                                    <div class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+                                        <span id="glucoseTrend">mmol/L</span>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-500">
+                                <span id="glucoseStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                     No data
                                 </span>
                             </div>
@@ -274,6 +318,28 @@
             const currentPatient = localStorage.getItem('currentPatient');
             if (currentPatient) {
                 document.getElementById('currentPatient').textContent = currentPatient;
+                
+                // Get latest vitals for current patient
+                const allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
+                const latestVitals = allVitals
+                    .filter(v => v.patient === currentPatient)
+                    .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))[0];
+                
+                // Set glucose value if available
+                if (latestVitals?.glucose) {
+                    document.getElementById('glucose').textContent = latestVitals.glucose.toFixed(1);
+                    
+                    if (latestVitals.glucose < 3.9) {
+                        document.getElementById('glucoseStatus').textContent = 'Low';
+                        document.getElementById('glucoseStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                    } else if (latestVitals.glucose > 7.8) {
+                        document.getElementById('glucoseStatus').textContent = 'High';
+                        document.getElementById('glucoseStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800';
+                    } else {
+                        document.getElementById('glucoseStatus').textContent = 'Normal';
+                        document.getElementById('glucoseStatus').className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800';
+                    }
+                }
             }
         }
 
