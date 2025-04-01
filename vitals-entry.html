@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VitalSigns | Add Vitals</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <style>
+      @import url('https://cdn.tailwindcss.com');
+      /* Vitals entry styles */
+      .vital-input-group {
+        position: relative;
+      }
+      .vital-input-group i {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #2563eb;
+      }
+      .vital-input-group input {
+        padding-left: 35px;
+      }
+      .datetime-input {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.375rem;
+      }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100">
@@ -165,10 +186,12 @@
             const oxygen = document.getElementById('oxygen').value;
             const respiratory = document.getElementById('respiratory').value;
             const weight = document.getElementById('weight').value;
+            const glucose = document.getElementById('glucose').value;
             const notes = document.getElementById('notes').value;
             
             // Create vitals object
             const vitals = {
+                glucose: glucose ? parseFloat(glucose) : null,
                 patient,
                 dateTime,
                 heartRate: heartRate ? parseInt(heartRate) : null,
