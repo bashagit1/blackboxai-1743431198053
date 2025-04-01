@@ -4,7 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VitalSigns | Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <style>
+      /* Embedded Tailwind CSS */
+      @import url('https://cdn.tailwindcss.com');
+      
+      /* Embedded Custom Styles */
+      body::after {
+        content: 'EMBEDDED CSS WORKING!';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #dc2626;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+        z-index: 9999;
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+      body {
+        border: 5px solid #2563eb;
+      }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .bg-medical {
