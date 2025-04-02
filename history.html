@@ -3,225 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalSigns | History</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <style>
-      @import url('https://cdn.tailwindcss.com');
-      /* History page styles */
-      .history-table {
-        border-collapse: separate;
-        border-spacing: 0;
-      }
-      .history-table th {
-        position: sticky;
-        top: 0;
-        background: white;
-        box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
-      }
-      .history-item:hover {
-        background: #f8fafc;
-      }
-      .pagination-btn.active {
-        background: #2563eb;
-        color: white;
-      }
-    </style>
+    <title>History - VitalCare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="data.js"></script>
+    <style>
+        .table-row:hover {
+            background-color: #f9fafb;
+        }
+        .status-normal {
+            color: #10B981;
+        }
+        .status-warning {
+            color: #F59E0B;
+        }
+        .status-danger {
+            color: #EF4444;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
-                    <span class="text-xl font-bold text-gray-900">VitalSigns</span>
-                </div>
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-red-600 text-white p-4 shadow-md">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Vital Signs History</h1>
                 <div class="flex items-center space-x-4">
-                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                    <a href="patient-profile.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Patients</a>
-                    <a href="vitals-entry.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Add Vitals</a>
-                    <a href="history.html" class="text-gray-900 px-3 py-2 rounded-md text-sm font-medium bg-gray-200">History</a>
-                    <a href="settings.html" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Settings</a>
+                    <a href="dashboard.html" class="bg-white text-red-600 px-3 py-1 rounded hover:bg-gray-100 transition">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
                 </div>
             </div>
-        </div>
-    </nav>
+        </header>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="px-4 py-6 sm:px-0">
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-                    <div class="flex justify-between items-center">
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto p-4">
+            <!-- Filters and Search -->
+            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="flex items-center space-x-4">
                         <div>
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">Vital Signs History</h3>
-                            <p class="mt-1 max-w-2xl text-sm text-gray-500">All recorded vital sign measurements</p>
+                            <label for="dateFrom" class="block text-sm font-medium text-gray-700 mb-1">From</label>
+                            <input type="date" id="dateFrom" class="px-3 py-1 border rounded">
                         </div>
                         <div>
-                            <button id="exportBtn" class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                <i class="fas fa-download mr-2"></i> Export CSV
-                            </button>
+                            <label for="dateTo" class="block text-sm font-medium text-gray-700 mb-1">To</label>
+                            <input type="date" id="dateTo" class="px-3 py-1 border rounded">
                         </div>
+                        <button id="applyFilter" class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 transition mt-5">
+                            Apply
+                        </button>
                     </div>
-                </div>
-                <div class="px-4 py-5 sm:p-6">
-                    <div class="mb-4">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label for="patientFilter" class="block text-sm font-medium text-gray-700">Patient</label>
-                                <select id="patientFilter" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm">
-                                    <option value="">All Patients</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="dateFrom" class="block text-sm font-medium text-gray-700">From Date</label>
-                                <input type="date" id="dateFrom" class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                            <div>
-                                <label for="dateTo" class="block text-sm font-medium text-gray-700">To Date</label>
-                                <input type="date" id="dateTo" class="mt-1 focus:ring-red-500 focus:border-red-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date/Time</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Heart Rate</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Pressure</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temp (°C)</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oxygen (%)</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resp. Rate</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight (kg)</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Glucose (mmol/L)</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recorded By</th>
-                                </tr>
-                            </thead>
-                            <tbody id="vitalsTableBody" class="bg-white divide-y divide-gray-200">
-                                <!-- Data will be inserted here by JavaScript -->
-                            </tbody>
-                        </table>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search entries..." class="pl-10 pr-4 py-2 border rounded-lg w-full md:w-64">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <!-- History Table -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h2 class="text-lg font-semibold">All Entries</h2>
+                    <button id="exportBtn" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition flex items-center">
+                        <i class="fas fa-file-export mr-2"></i> Export to CSV
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Systolic</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diastolic</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pulse</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SpO₂</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temp</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Glucose</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="historyTable">
+                            <!-- Sample data - will be populated by JavaScript -->
+                            <tr class="table-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-11-15 08:30</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">120</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">80</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">72</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">98%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">36.5°C</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">92</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm status-normal">
+                                    <i class="fas fa-check-circle"></i> Normal
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-11-14 20:15</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">118</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">78</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">75</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">97%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">36.7°C</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">88</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm status-normal">
+                                    <i class="fas fa-check-circle"></i> Normal
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr class="table-row">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2023-11-14 08:00</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">145</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">92</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">82</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">96%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">36.8°C</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">102</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm status-warning">
+                                    <i class="fas fa-exclamation-triangle"></i> Warning
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <button class="text-blue-600 hover:text-blue-900 mr-3">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Previous
+                        </a>
+                        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            Next
+                        </a>
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700">
+                                Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">Previous</span>
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                                <a href="#" aria-current="page" class="z-10 bg-red-50 border-red-500 text-red-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    1
+                                </a>
+                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    2
+                                </a>
+                                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                    3
+                                </a>
+                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                    <span class="sr-only">Next</span>
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2023 VitalCare - Malaysian Healthcare Solutions</p>
+            </div>
+        </footer>
     </div>
 
     <script>
-        // Load patients into filter dropdown
-        function loadPatients() {
-            const patientFilter = document.getElementById('patientFilter');
-            const patients = JSON.parse(localStorage.getItem('patients') || '[]');
-            
-            // Clear existing options
-            patientFilter.innerHTML = '<option value="">All Patients</option>';
-            
-            // Add patient options
-            patients.forEach(patient => {
-                const option = document.createElement('option');
-                option.value = `${patient.firstName} ${patient.lastName}`;
-                option.textContent = `${patient.firstName} ${patient.lastName}`;
-                patientFilter.appendChild(option);
-            });
+        // Check if user is logged in
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.href = 'index.html';
         }
 
-        // Format date for display
-        function formatDateTime(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleString();
-        }
-
-        // Load and display vitals data
-        function loadVitals() {
-            const vitalsTableBody = document.getElementById('vitalsTableBody');
-            const patientFilter = document.getElementById('patientFilter').value;
-            const dateFrom = document.getElementById('dateFrom').value;
-            const dateTo = document.getElementById('dateTo').value;
+        // Set default date range (last 7 days)
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const lastWeek = new Date();
+            lastWeek.setDate(today.getDate() - 7);
             
-            // Clear existing table rows
-            vitalsTableBody.innerHTML = '';
-            
-            // Get all vitals data
-            let allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
-            
-            // Filter data
-            allVitals = allVitals.filter(vital => {
-                // Filter by patient
-                if (patientFilter && vital.patient !== patientFilter) {
-                    return false;
-                }
-                
-                // Filter by date range
-                const vitalDate = new Date(vital.dateTime).toISOString().split('T')[0];
-                if (dateFrom && vitalDate < dateFrom) {
-                    return false;
-                }
-                if (dateTo && vitalDate > dateTo) {
-                    return false;
-                }
-                
-                return true;
-            });
-            
-            // Sort by date (newest first)
-            allVitals.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-            
-            // Add rows to table
-            allVitals.forEach(vital => {
-                const row = document.createElement('tr');
-                
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${vital.patient}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDateTime(vital.dateTime)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.heartRate || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.bloodPressure || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.temperature || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.oxygen || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.respiratory || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.weight || '--'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vital.recordedBy}</td>
-                `;
-                
-                vitalsTableBody.appendChild(row);
-            });
-        }
-
-        // Export to CSV
-        document.getElementById('exportBtn').addEventListener('click', function() {
-            let allVitals = JSON.parse(localStorage.getItem('vitals') || '[]');
-            
-            // Create CSV header
-            let csv = 'Patient,Date/Time,Heart Rate,Blood Pressure,Temperature (°C),Oxygen (%),Respiratory Rate,Weight (kg),Recorded By\n';
-            
-            // Add data rows
-            allVitals.forEach(vital => {
-                csv += `"${vital.patient}","${formatDateTime(vital.dateTime)}",${vital.heartRate || ''},"${vital.bloodPressure || ''}",${vital.temperature || ''},${vital.oxygen || ''},${vital.respiratory || ''},${vital.weight || ''},"${vital.recordedBy}"\n`;
-            });
-            
-            // Create download link
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('hidden', '');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'vitals_history.csv');
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            document.getElementById('dateFrom').valueAsDate = lastWeek;
+            document.getElementById('dateTo').valueAsDate = today;
         });
 
-        // Initialize page
-        window.addEventListener('load', function() {
-            loadPatients();
-            loadVitals();
-            
-            // Set up event listeners for filters
-            document.getElementById('patientFilter').addEventListener('change', loadVitals);
-            document.getElementById('dateFrom').addEventListener('change', loadVitals);
-            document.getElementById('dateTo').addEventListener('change', loadVitals);
+        // Export to CSV functionality
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            // This will be implemented in data.js
+            alert('Export functionality will be implemented in data.js');
+        });
+
+        // Filter and search functionality
+        document.getElementById('applyFilter').addEventListener('click', function() {
+            // This will be implemented in data.js
+            alert('Filter functionality will be implemented in data.js');
+        });
+
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                // This will be implemented in data.js
+                alert('Search functionality will be implemented in data.js');
+            }
         });
     </script>
 </body>
